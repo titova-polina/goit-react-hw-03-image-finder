@@ -41,7 +41,7 @@ export class App extends Component {
         this.state.page
       );
       this.setState({
-        images: [...prevState.images, ...hits],
+        images: [...this.state.images, ...hits],
         total: totalHits,
         loading: false,
       });
@@ -56,6 +56,7 @@ export class App extends Component {
   };
 
   render() {
+    console.log('State', this.state.images?.length);
     return (
       <>
         <SearchBar changeQuery={this.changeQuery} />
