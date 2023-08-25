@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
 export const Gallery = styled.ul`
-  display: grid;
-  max-width: calc(100vw - 48px);
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-gap: 16px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: calc((100% / 4) - 48);
+  text-decoration: none;
   margin-top: 0;
   margin-bottom: 0;
   padding: 0;

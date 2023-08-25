@@ -1,7 +1,7 @@
-import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Gallery } from './ImageGallery.styled';
 
-export const ImageGallery = ({ images }) => {
+export const ImageGallery = ({ images, openModal }) => {
   return (
     <Gallery>
       {images.map(({ id, largeImageURL, webformatURL, tags }) => (
@@ -10,6 +10,7 @@ export const ImageGallery = ({ images }) => {
           largeImageURL={largeImageURL}
           webformatURL={webformatURL}
           tags={tags}
+          openModal={openModal}
         />
       ))}
     </Gallery>

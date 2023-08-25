@@ -3,15 +3,23 @@ import { SearchBar } from './Searchbar/Searchbar';
 import { LoadMoreBtn } from './Button/Button';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { PER_PAGE, fetchImages } from './API';
-import { ThreeDots } from 'react-loader-spinner';
+import { Loader } from './Loader/Loader';
+import { ModalElement } from './Modal/Modal';
 
 export class App extends Component {
   state = {
     query: '',
     images: [],
     page: 1,
+    loading: false,
     total: 0,
+    isModalOpen: false,
   };
+
+  openModal = ({ srcDataModal, altDataModal }) =>
+    this.setState({ isModalOpen: true, srcDataModal, altDataModal });
+
+  closeModal = () => this.setState({ isModalOpen: false });
 
   changeQuery = newQuery => {
     this.setState({
@@ -19,6 +27,7 @@ export class App extends Component {
       images: [],
       page: 1,
       total: 0,
+      loading: true,
     });
   };
 
@@ -31,27 +40,36 @@ export class App extends Component {
         this.state.query,
         this.state.page
       );
-      this.setState(prevState => ({
-        ...prevState,
+      this.setState({
         images: [...prevState.images, ...hits],
         total: totalHits,
-      }));
+        loading: false,
+      });
     }
   }
 
   handleLoadMore = () => {
-    this.setState(prevState => ({ ...prevState, page: prevState.page + 1 }));
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+      loading: true,
+    }));
   };
 
   render() {
     return (
       <>
         <SearchBar changeQuery={this.changeQuery} />
-        <ImageGallery images={this.state.images} />
-        <ThreeDots />
+        <ImageGallery images={this.state.images} openModal={this.openModal} />
+        {this.state.loading && <Loader />}
         {PER_PAGE * this.state.page < this.state.total && (
           <LoadMoreBtn handleLoadMore={this.handleLoadMore} />
         )}
+        <ModalElement
+          isModalOpen={this.state.isModalOpen}
+          closeModal={this.closeModal}
+          srcDataModal={this.state.srcDataModal}
+          altDataModal={this.state.altDataModal}
+        />
       </>
     );
   }
